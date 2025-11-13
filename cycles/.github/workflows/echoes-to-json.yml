@@ -1,0 +1,65 @@
+name: Build echoes feed
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, reopened]
+  schedule:
+    - cron: "*/30 * * * *"   # every 30 min
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Gather water-drop issues -> echoes/echoes.json
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const owner = context.repo.owner;
+            const repo  = context.repo.repo;
+            let page = 1, per_page = 100, items = [];
+            while (true) {
+              const { data } = await github.rest.issues.listForRepo({
+                owner, repo, state: 'open', labels: 'water-drop', per_page, page
+              });
+              if (!data.length) break;
+              items = items.concat(data);
+              if (data.length < per_page) break;
+              page++;
+            }
+            const echoes = items.map(it => {
+              // Extract fields from body using simple markers if present
+              const body = it.body || "";
+              const keyMatch   = body.match(/ECHO:[^\n\r]+/i);
+              const cycleMatch = body.match(/\b(00\d|0?\d{1,3})\b/);
+              return {
+                id: it.number,
+                title: it.title,
+                url: it.html_url,
+                user: it.user?.login,
+                created_at: it.created_at,
+                updated_at: it.updated_at,
+                labels: it.labels?.map(l => l.name) || [],
+                key: keyMatch ? keyMatch[0].trim() : null,
+                cycle_hint: cycleMatch ? cycleMatch[0] : null,
+                body
+              };
+            });
+
+            fs.mkdirSync('echoes', { recursive: true });
+            fs.writeFileSync('echoes/echoes.json', JSON.stringify({ generated_at: new Date().toISOString(), count: echoes.length, echoes }, null, 2));
+            core.info(`Wrote ${echoes.length} echoes`);
+
+      - name: Commit feed
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "echoes/echoes.json"
+          message: "chore(echoes): refresh feed"
