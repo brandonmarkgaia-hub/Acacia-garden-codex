@@ -12,22 +12,45 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create echoes directory if missing
-        run: mkdir -p echoes
-
-      - name: Append new issue as JSON echo
+      - name: Ensure echoes folder exists
         run: |
-          echo "{\"id\": \"${{ github.event.issue.number }}\", \"title\": \"${{ github.event.issue.title }}\", \"body\": \"$(echo "${{ github.event.issue.body }}" | sed 's/"/\\"/g')\", \"url\": \"${{ github.event.issue.html_url }}\", \"timestamp\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"}" >> echoes/feed.json
+          mkdir -p echoes
+          echo "[]" > echoes/feed.json || true
+
+      - name: Generate new echo
+        id: make_echo
+        run: |
+          echo "Adding new echo to feed.json"
+          ISSUE_NUM=${{ github.event.issue.number }}
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY=$(echo "${{ github.event.issue.body }}" | jq -Rs .)
+          DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          # Create entry JSON
+          NEW_ENTRY=$(jq -n \
+            --arg id "$ISSUE_NUM" \
+            --arg title "$ISSUE_TITLE" \
+            --arg body "$ISSUE_BODY" \
+            --arg date "$DATE" \
+            '{id:$id, title:$title, body:$body, date:$date}')
+
+          # Merge or create feed
+          if [ -f echoes/feed.json ]; then
+            jq ". += [$NEW_ENTRY]" echoes/feed.json > echoes/tmp.json && mv echoes/tmp.json echoes/feed.json
+          else
+            echo "[$NEW_ENTRY]" > echoes/feed.json
+          fi
 
       - name: Commit and push
         run: |
-          git config user.name "Acacia-Bot"
-          git config user.email "actions@github.com"
-          git add echoes/feed.json
-          git commit -m "🌿 New water drop #${{ github.event.issue.number }}"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add echoes/feed.json || true
+          git commit -m "🌿 New water drop #${{ github.event.issue.number }}" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
