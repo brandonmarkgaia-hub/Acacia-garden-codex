@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://brandonmarkgaia-hub.github.io/Acacia-garden-codex/acacia.schema.json",
+  "title": "Acacia Garden Codex Schema",
+  "type": "object",
+  "properties": {
+    "cycles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "file"],
+        "properties": {
+          "id": { "type": ["string","number"] },
+          "title": { "type": "string", "minLength": 1 },
+          "file": { "type": "string", "pattern": "^.+\\.(md|html)$" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["cycles"],
+  "additionalProperties": false
+}
