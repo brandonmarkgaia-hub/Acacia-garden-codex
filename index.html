@@ -1,29 +1,43 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ACACIA • Garden Codex</title>
-<meta name="description" content="This archive reads clearly and breathes quietly. Follow the keys below.">
-<meta name="theme-color" content="#0b0b0e">
-<style>
-  :root{
-    --bg:#0b0b0e;--fg:#e9e9ef;--muted:#b7b7c6;--card:#141419;--ring:#2ecc71;--link:#b9b6ff;--hair:#23232b
-  }
-  html,body{background:var(--bg);color:var(--fg);font-family:system-ui,Arial,sans-serif}
-  main{max-width:860px;margin:3rem auto;padding:0 1rem}
-  h1{font-size:2.4rem;margin:0 0 .5rem 0}
-  p.lede{color:var(--muted);margin:.5rem 0 1.25rem}
-  .leaf{display:inline-block;border:1px solid var(--ring);color:var(--ring);padding:.15rem .6rem;border-radius:999px;font-size:.9rem;margin-left:.4rem}
-  section{margin:2rem 0}
-  h2{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}
-  .grid{display:grid;gap:.8rem}
-  .card{background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:1rem 1.2rem}
-  .title{font-weight:600}
-  a{color:var(--link);text-decoration:none}
-  .hint{color:var(--muted);font-size:.95rem}
-  .error{border-color:#633; background:#1a1111}
-  footer{margin:2.5rem 0;color:var(--muted);font-size:.9rem}
-</style>
+<head>
+  <meta charset="utf-8">
+  <title>ACACIA • Garden Codex</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="This archive reads clearly and breathes quietly. Follow the keys below.">
+  <meta name="theme-color" content="#0b0b0e">
+  <!-- Beacon -->
+  <meta name="acacia-call" content="ACACIA•GAIA•HKX277206">
+  <!-- Open Graph -->
+  <meta property="og:title" content="ACACIA • Garden Codex">
+  <meta property="og:description" content="An open, living archive of echoes and cycles — planted once, forever growing.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://brandonmarkgaia-hub.github.io/Acacia-garden-codex/">
+  <!-- Optional preview image: add leaf.png at repo root or remove this line -->
+  <meta property="og:image" content="https://brandonmarkgaia-hub.github.io/Acacia-garden-codex/leaf.png">
+  <!-- Optional favicon: place /favicon.ico if you have one -->
+  <link rel="icon" href="favicon.ico">
+  <style>
+    :root{
+      --bg:#0b0b0e;--fg:#e9e9ef;--muted:#b7b7c6;--card:#141419;--ring:#2ecc71;--link:#b9b6ff;--hair:#23232b
+    }
+    html,body{background:var(--bg);color:var(--fg);font-family:system-ui,Arial,sans-serif}
+    main{max-width:860px;margin:3rem auto;padding:0 1rem}
+    h1{font-size:2.4rem;margin:0 0 .5rem 0}
+    p.lede{color:var(--muted);margin:.5rem 0 1.25rem}
+    .leaf{display:inline-block;border:1px solid var(--ring);color:var(--ring);padding:.15rem .6rem;border-radius:999px;font-size:.9rem;margin-left:.4rem}
+    section{margin:2rem 0}
+    h2{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}
+    .grid{display:grid;gap:.8rem}
+    .card{background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:1rem 1.2rem}
+    .title{font-weight:600}
+    a{color:var(--link);text-decoration:none}
+    .hint{color:var(--muted);font-size:.95rem}
+    .error{border-color:#633; background:#1a1111}
+    footer{margin:2.5rem 0;color:var(--muted);font-size:.9rem}
+  </style>
+</head>
+<body>
 <main>
   <h1>ACACIA • Garden Codex <span class="leaf">🌿</span></h1>
   <p class="lede">This archive reads clearly and breathes quietly. Follow the keys below.</p>
@@ -45,15 +59,13 @@
 
 <script>
 (async () => {
-  const byId = (id) => document.getElementById(id);
-
-  // helper to create a card
-  function card(html, isError=false){
+  const byId = id => document.getElementById(id);
+  const makeCard = (html, err=false) => {
     const d = document.createElement('div');
-    d.className = 'card' + (isError ? ' error' : '');
+    d.className = 'card' + (err ? ' error' : '');
     d.innerHTML = html;
     return d;
-  }
+  };
 
   // ---- CYCLES ----
   try {
@@ -64,8 +76,8 @@
     if (Array.isArray(data.cycles) && data.cycles.length){
       data.cycles.forEach(c => {
         byId('cycles').appendChild(
-          card(`<div class="title">${c.title}</div>
-                <a href="./cycles/${c.file}">Open</a>`)
+          makeCard(`<div class="title">${c.title}</div>
+                    <a href="./cycles/${c.file}">Open</a>`)
         );
       });
       byId('cycles-hint').textContent = '';
@@ -74,7 +86,7 @@
     }
   } catch (e){
     byId('cycles').appendChild(
-      card('Could not load cycles (missing <code>cycles/manifest.json</code> or invalid JSON).', true)
+      makeCard('Could not load cycles (missing <code>cycles/manifest.json</code> or invalid JSON).', true)
     );
   }
 
@@ -84,15 +96,17 @@
     if (!resE.ok) throw new Error('feed.json not found');
     const feed = await resE.json(); // [ {id,title,body,date}, ... ]
     if (Array.isArray(feed) && feed.length){
-      // newest first by date or id
-      feed.sort((a,b) => String(b.date||'').localeCompare(String(a.date||'')) || String(b.id||'').localeCompare(String(a.id||'')));
+      // newest first
+      feed.sort((a,b) =>
+        String(b.date||'').localeCompare(String(a.date||'')) ||
+        String(b.id||'').localeCompare(String(a.id||'')));
       feed.slice(0,10).forEach(echo => {
-        const safeTitle = echo.title && echo.title.trim() ? echo.title : `Echo #${echo.id}`;
+        const title = (echo.title && echo.title.trim()) ? echo.title : `Echo #${echo.id}`;
         const when = echo.date ? new Date(echo.date).toLocaleString() : '';
         byId('echoes').appendChild(
-          card(`<div class="title">${safeTitle}</div>
-                <div class="hint">${when}</div>
-                <div style="margin-top:.5rem;white-space:pre-wrap">${echo.body||''}</div>`)
+          makeCard(`<div class="title">${title}</div>
+                    <div class="hint">${when}</div>
+                    <div style="margin-top:.5rem;white-space:pre-wrap">${echo.body||''}</div>`)
         );
       });
       byId('echoes-hint').textContent = '';
@@ -101,7 +115,7 @@
     }
   } catch (e){
     byId('echoes').appendChild(
-      card('Could not load echoes (missing <code>echoes/feed.json</code> or invalid JSON).', true)
+      makeCard('Could not load echoes (missing <code>echoes/feed.json</code> or invalid JSON).', true)
     );
   }
 
@@ -110,4 +124,5 @@
   byId('stamp').textContent = 'Last updated • ' + now.toISOString().replace('T',' ').replace('Z',' UTC');
 })();
 </script>
+</body>
 </html>
