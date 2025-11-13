@@ -39,7 +39,7 @@ jobs:
       - name: Build digest
         id: build
         run: |
-          TS=$(date -u +"%Y-%m-%d %H:%M:%SZ")
+          TS=$(date -u +"%Y-%m-%d_%H-%M-%SZ")
           VIEWS_T=$(jq '[.views[]?.count]   | add // 0' analytics/views.json)
           VIEWS_U=$(jq '[.views[]?.uniques] | add // 0' analytics/views.json)
           CLONES_T=$(jq '[.clones[]?.count]   | add // 0' analytics/clones.json)
