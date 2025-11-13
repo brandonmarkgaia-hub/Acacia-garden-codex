@@ -32,7 +32,7 @@ jobs:
           curl -s -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/$REPO/traffic/popular/paths" > analytics/paths.json
 
-      - name: Build plain-text & HTML summaries
+      - name: Build summaries
         id: build
         run: |
           TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -48,62 +48,37 @@ jobs:
           REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
           PAGES_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/$(basename ${GITHUB_REPOSITORY})/"
 
-          TEXT_BODY=$(cat <<TXT
-ACACIA • Weekly Traffic Digest
-Timestamp (UTC): ${TS}
-
-Repo: ${REPO_URL}
-Pages: ${PAGES_URL}
-
-Views:  ${VIEWS_T} total / ${VIEWS_U} unique (last 14 days window)
-Clones: ${CLONES_T} total / ${CLONES_U} unique (last 14 days window)
-
-Top Referrers:
-${REF:-"- none observed"}
-
-Popular Paths:
-${PTH:-"- none observed"}
-
-Beacon: ACACIA•GAIA•HKX277206
-TXT
-)
-          echo "text<<__EOF__" >> $GITHUB_OUTPUT
-          echo "$TEXT_BODY" >> $GITHUB_OUTPUT
-          echo "__EOF__" >> $GITHUB_OUTPUT
-
-          HTML_BODY=$(cat <<HTML
-<h2>ACACIA • Weekly Traffic Digest</h2>
-<p><strong>Timestamp (UTC):</strong> ${TS}</p>
-<p><strong>Repo:</strong> <a href="${REPO_URL}">${REPO_URL}</a><br>
-<strong>Pages:</strong> <a href="${PAGES_URL}">${PAGES_URL}</a></p>
-<ul>
-<li><strong>Views:</strong> ${VIEWS_T} total / ${VIEWS_U} unique</li>
-<li><strong>Clones:</strong> ${CLONES_T} total / ${CLONES_U} unique</li>
-</ul>
-<p><strong>Top Referrers</strong><br>
-<pre>${REF:-"- none observed"}</pre></p>
-<p><strong>Popular Paths</strong><br>
-<pre>${PTH:-"- none observed"}</pre></p>
-<p><em>Beacon:</em> ACACIA•GAIA•HKX277206</p>
-HTML
-)
-          echo "html<<__EOF__" >> $GITHUB_OUTPUT
-          echo "$HTML_BODY" >> $GITHUB_OUTPUT
-          echo "__EOF__" >> $GITHUB_OUTPUT
+          {
+            echo "text<<__EOF__"
+            echo "ACACIA • Weekly Traffic Digest"
+            echo "Timestamp (UTC): ${TS}"
+            echo ""
+            echo "Repo: ${REPO_URL}"
+            echo "Pages: ${PAGES_URL}"
+            echo ""
+            echo "Views:  ${VIEWS_T} total / ${VIEWS_U} unique"
+            echo "Clones: ${CLONES_T} total / ${CLONES_U} unique"
+            echo ""
+            echo "Top Referrers:"
+            echo "${REF:-"- none observed"}"
+            echo ""
+            echo "Popular Paths:"
+            echo "${PTH:-"- none observed"}"
+            echo ""
+            echo "Beacon: ACACIA•GAIA•HKX277206"
+            echo "__EOF__"
+          } >> $GITHUB_OUTPUT
 
       - name: Send email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: ${{ secrets.SMTP_SERVER }}
           server_port: ${{ secrets.SMTP_PORT }}
-          secure: ${{ secrets.SMTP_SECURE }}   # "true" for 465 (SSL), "false" for 587 (STARTTLS)
+          secure: ${{ secrets.SMTP_SECURE }}
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "ACACIA • Weekly Traffic Digest"
-          from: ${{ secrets.MAIL_FROM }}       # e.g. "Acacia Garden <no-reply@yourdomain>"
-          to: ${{ secrets.MAIL_TO }}           # set to your address in secrets
-          reply_to: ${{ secrets.MAIL_FROM }}
-          priority: low
-          convert_markdown: false
-          html_body: ${{ steps.build.outputs.html }}
+          from: ${{ secrets.MAIL_FROM }}
+          to: ${{ secrets.MAIL_TO }}
+          html_body: ${{ steps.build.outputs.text }}
           text_body: ${{ steps.build.outputs.text }}
