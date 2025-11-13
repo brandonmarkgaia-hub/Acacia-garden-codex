@@ -3,71 +3,111 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ACACIA • Garden Codex</title>
+<meta name="description" content="This archive reads clearly and breathes quietly. Follow the keys below.">
+<meta name="theme-color" content="#0b0b0e">
 <style>
-:root{--bg:#0b0b0e;--fg:#e9e9ef;--muted:#b7b7c6;--card:#141419;--ring:#2ecc71;--link:#b9b6ff}
-html,body{background:var(--bg);color:var(--fg);font-family:system-ui,Arial,sans-serif}
-main{max-width:840px;margin:3rem auto;padding:0 1rem}
-h1{font-size:2.4rem;margin:0 0 .5rem 0}
-.leaf{display:inline-block;border:1px solid var(--ring);color:var(--ring);padding:.15rem .55rem;border-radius:999px;font-size:.9rem;margin-left:.4rem}
-p{color:var(--muted)}
-.card{background:var(--card);border:1px solid #23232b;border-radius:14px;padding:1rem 1.2rem;margin:1rem 0}
-a{color:var(--link);text-decoration:none}
-.section-title{margin-top:2.2rem;font-size:1.2rem;color:var(--muted);letter-spacing:.03em}
-.small{font-size:.9rem;color:var(--muted)}
+  :root{
+    --bg:#0b0b0e;--fg:#e9e9ef;--muted:#b7b7c6;--card:#141419;--ring:#2ecc71;--link:#b9b6ff;--hair:#23232b
+  }
+  html,body{background:var(--bg);color:var(--fg);font-family:system-ui,Arial,sans-serif}
+  main{max-width:860px;margin:3rem auto;padding:0 1rem}
+  h1{font-size:2.4rem;margin:0 0 .5rem 0}
+  p.lede{color:var(--muted);margin:.5rem 0 1.25rem}
+  .leaf{display:inline-block;border:1px solid var(--ring);color:var(--ring);padding:.15rem .6rem;border-radius:999px;font-size:.9rem;margin-left:.4rem}
+  section{margin:2rem 0}
+  h2{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .6rem}
+  .grid{display:grid;gap:.8rem}
+  .card{background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:1rem 1.2rem}
+  .title{font-weight:600}
+  a{color:var(--link);text-decoration:none}
+  .hint{color:var(--muted);font-size:.95rem}
+  .error{border-color:#633; background:#1a1111}
+  footer{margin:2.5rem 0;color:var(--muted);font-size:.9rem}
 </style>
-
 <main>
   <h1>ACACIA • Garden Codex <span class="leaf">🌿</span></h1>
-  <p>This archive reads clearly and breathes quietly. Follow the keys below.</p>
+  <p class="lede">This archive reads clearly and breathes quietly. Follow the keys below.</p>
 
-  <div class="section-title">Cycles</div>
-  <div id="cycles"></div>
+  <section id="cycles-sec">
+    <h2>Cycles</h2>
+    <div id="cycles" class="grid"></div>
+    <div id="cycles-hint" class="hint"></div>
+  </section>
 
-  <div class="section-title">Latest Echoes 🌱</div>
-  <div id="echoes"></div>
+  <section id="echoes-sec">
+    <h2>Latest Echoes 🌱</h2>
+    <div id="echoes" class="grid"></div>
+    <div id="echoes-hint" class="hint"></div>
+  </section>
 
-  <p class="small">To add an echo, open a GitHub Issue in this repo — the feed updates automatically.</p>
+  <footer id="stamp"></footer>
 </main>
 
 <script>
 (async () => {
-  // ---- Load cycles list ----
-  try {
-    const res = await fetch('./cycles/manifest.json', {cache:'no-store'});
-    const data = await res.json();
-    const list = document.getElementById('cycles');
-    data.cycles.forEach(c => {
-      const d = document.createElement('div'); d.className='card';
-      d.innerHTML = `<strong>${c.title}</strong><br><a href="./cycles/${c.file}">Open</a>`;
-      list.appendChild(d);
-    });
-  } catch(e) {
-    document.getElementById('cycles').innerHTML =
-      '<div class="card">No cycles found yet.</div>';
+  const byId = (id) => document.getElementById(id);
+
+  // helper to create a card
+  function card(html, isError=false){
+    const d = document.createElement('div');
+    d.className = 'card' + (isError ? ' error' : '');
+    d.innerHTML = html;
+    return d;
   }
 
-  // ---- Load echoes feed ----
+  // ---- CYCLES ----
   try {
-    const res2 = await fetch('./echoes/feed.json', {cache:'no-store'});
-    const feed = await res2.json();
-    const box = document.getElementById('echoes');
-    if (!Array.isArray(feed) || feed.length === 0) {
-      box.innerHTML = '<div class="card">No echoes yet.</div>'; return;
+    const res = await fetch('./cycles/manifest.json', {cache:'no-store'});
+    if (!res.ok) throw new Error('manifest.json not found');
+    const data = await res.json(); // { cycles: [ {title,file}, ... ] }
+
+    if (Array.isArray(data.cycles) && data.cycles.length){
+      data.cycles.forEach(c => {
+        byId('cycles').appendChild(
+          card(`<div class="title">${c.title}</div>
+                <a href="./cycles/${c.file}">Open</a>`)
+        );
+      });
+      byId('cycles-hint').textContent = '';
+    } else {
+      byId('cycles-hint').textContent = 'No cycles listed yet (manifest is empty).';
     }
-    // newest last? show last 5 newest by date.
-    const latest = feed.slice(-5).reverse();
-    latest.forEach(e => {
-      const d = document.createElement('div'); d.className='card';
-      const title = (e.title && e.title.trim()) ? e.title : `Echo #${e.id}`;
-      const body = (e.body || '').replace(/\n/g,'<br>');
-      d.innerHTML = `<strong>${title}</strong><br>
-                     <span class="small">${e.date || ''}</span><br><br>${body}`;
-      box.appendChild(d);
-    });
-  } catch(e) {
-    document.getElementById('echoes').innerHTML =
-      '<div class="card">Echoes feed unavailable.</div>';
+  } catch (e){
+    byId('cycles').appendChild(
+      card('Could not load cycles (missing <code>cycles/manifest.json</code> or invalid JSON).', true)
+    );
   }
+
+  // ---- ECHOES ----
+  try {
+    const resE = await fetch('./echoes/feed.json', {cache:'no-store'});
+    if (!resE.ok) throw new Error('feed.json not found');
+    const feed = await resE.json(); // [ {id,title,body,date}, ... ]
+    if (Array.isArray(feed) && feed.length){
+      // newest first by date or id
+      feed.sort((a,b) => String(b.date||'').localeCompare(String(a.date||'')) || String(b.id||'').localeCompare(String(a.id||'')));
+      feed.slice(0,10).forEach(echo => {
+        const safeTitle = echo.title && echo.title.trim() ? echo.title : `Echo #${echo.id}`;
+        const when = echo.date ? new Date(echo.date).toLocaleString() : '';
+        byId('echoes').appendChild(
+          card(`<div class="title">${safeTitle}</div>
+                <div class="hint">${when}</div>
+                <div style="margin-top:.5rem;white-space:pre-wrap">${echo.body||''}</div>`)
+        );
+      });
+      byId('echoes-hint').textContent = '';
+    } else {
+      byId('echoes-hint').textContent = 'No echoes yet. Open a GitHub Issue to plant one.';
+    }
+  } catch (e){
+    byId('echoes').appendChild(
+      card('Could not load echoes (missing <code>echoes/feed.json</code> or invalid JSON).', true)
+    );
+  }
+
+  // ---- stamp ----
+  const now = new Date();
+  byId('stamp').textContent = 'Last updated • ' + now.toISOString().replace('T',' ').replace('Z',' UTC');
 })();
 </script>
 </html>
