@@ -4,100 +4,69 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ACACIA • Garden Codex</title>
 <style>
-:root{
-  --bg:#0b0b0e;
-  --fg:#e9e9ef;
-  --muted:#b7b7c6;
-  --card:#141419;
-  --ring:#2ecc71;
-}
-html,body{
-  background:var(--bg);
-  color:var(--fg);
-  font-family:system-ui,Arial,sans-serif;
-}
-main{
-  max-width:840px;
-  margin:3rem auto;
-  padding:0 1rem;
-}
-h1{
-  font-size:2.4rem;
-  margin:0 0 .5rem 0;
-}
-.leaf{
-  display:inline-block;
-  border:1px solid var(--ring);
-  color:var(--ring);
-  padding:.15rem .55rem;
-  border-radius:999px;
-  font-size:.9rem;
-  margin-left:.4rem;
-}
+:root{--bg:#0b0b0e;--fg:#e9e9ef;--muted:#b7b7c6;--card:#141419;--ring:#2ecc71;--link:#b9b6ff}
+html,body{background:var(--bg);color:var(--fg);font-family:system-ui,Arial,sans-serif}
+main{max-width:840px;margin:3rem auto;padding:0 1rem}
+h1{font-size:2.4rem;margin:0 0 .5rem 0}
+.leaf{display:inline-block;border:1px solid var(--ring);color:var(--ring);padding:.15rem .55rem;border-radius:999px;font-size:.9rem;margin-left:.4rem}
 p{color:var(--muted)}
-.card{
-  background:var(--card);
-  border:1px solid #23232b;
-  border-radius:14px;
-  padding:1rem 1.2rem;
-  margin:1rem 0;
-}
-a{color:#b9b6ff;text-decoration:none}
+.card{background:var(--card);border:1px solid #23232b;border-radius:14px;padding:1rem 1.2rem;margin:1rem 0}
+a{color:var(--link);text-decoration:none}
+.section-title{margin-top:2.2rem;font-size:1.2rem;color:var(--muted);letter-spacing:.03em}
+.small{font-size:.9rem;color:var(--muted)}
 </style>
 
 <main>
   <h1>ACACIA • Garden Codex <span class="leaf">🌿</span></h1>
   <p>This archive reads clearly and breathes quietly. Follow the keys below.</p>
 
-  <h2>Cycles</h2>
-  <div id="list"></div>
+  <div class="section-title">Cycles</div>
+  <div id="cycles"></div>
 
-  <h2>Latest Echoes 🌱</h2>
+  <div class="section-title">Latest Echoes 🌱</div>
   <div id="echoes"></div>
+
+  <p class="small">To add an echo, open a GitHub Issue in this repo — the feed updates automatically.</p>
 </main>
 
 <script>
 (async () => {
-  // --- Load Cycles ---
+  // ---- Load cycles list ----
   try {
-    const res = await fetch('./cycles/manifest.json');
+    const res = await fetch('./cycles/manifest.json', {cache:'no-store'});
     const data = await res.json();
-    const list = document.getElementById('list');
+    const list = document.getElementById('cycles');
     data.cycles.forEach(c => {
-      const d = document.createElement('div');
-      d.className = 'card';
+      const d = document.createElement('div'); d.className='card';
       d.innerHTML = `<strong>${c.title}</strong><br><a href="./cycles/${c.file}">Open</a>`;
       list.appendChild(d);
     });
-  } catch (err) {
-    console.error('Cycles load error', err);
+  } catch(e) {
+    document.getElementById('cycles').innerHTML =
+      '<div class="card">No cycles found yet.</div>';
   }
 
-  // --- Load Echoes ---
+  // ---- Load echoes feed ----
   try {
-    const feedUrl = "https://brandonmarkgaia-hub.github.io/Acacia-garden-codex/echoes/feed.json";
-    const res = await fetch(feedUrl + "?v=" + Date.now());
-    const echoes = await res.json();
-    const wrap = document.getElementById('echoes');
-
-    if (!echoes.length) {
-      wrap.innerHTML = "<p>No echoes yet — the garden is listening 🌾</p>";
-      return;
+    const res2 = await fetch('./echoes/feed.json', {cache:'no-store'});
+    const feed = await res2.json();
+    const box = document.getElementById('echoes');
+    if (!Array.isArray(feed) || feed.length === 0) {
+      box.innerHTML = '<div class="card">No echoes yet.</div>'; return;
     }
-
-    echoes.reverse().forEach(e => {
-      const item = document.createElement('div');
-      item.className = 'card';
-      item.innerHTML = `
-        <strong>#${e.id}</strong> • <em>${e.date}</em><br/>
-        <h3>${e.title || "Untitled Drop"}</h3>
-        <pre style="white-space: pre-wrap">${e.body || ""}</pre>
-      `;
-      wrap.appendChild(item);
+    // newest last? show last 5 newest by date.
+    const latest = feed.slice(-5).reverse();
+    latest.forEach(e => {
+      const d = document.createElement('div'); d.className='card';
+      const title = (e.title && e.title.trim()) ? e.title : `Echo #${e.id}`;
+      const body = (e.body || '').replace(/\n/g,'<br>');
+      d.innerHTML = `<strong>${title}</strong><br>
+                     <span class="small">${e.date || ''}</span><br><br>${body}`;
+      box.appendChild(d);
     });
-  } catch (err) {
-    document.getElementById('echoes').innerHTML = "<p>Could not fetch echoes 🌧️</p>";
-    console.error(err);
+  } catch(e) {
+    document.getElementById('echoes').innerHTML =
+      '<div class="card">Echoes feed unavailable.</div>';
   }
 })();
 </script>
