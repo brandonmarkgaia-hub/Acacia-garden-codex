@@ -39,7 +39,9 @@ jobs:
       - name: Build digest
         id: build
         run: |
+          # Safe timestamp (no colons, no spaces)
           TS=$(date -u +"%Y-%m-%d_%H-%M-%SZ")
+
           VIEWS_T=$(jq '[.views[]?.count]   | add // 0' analytics/views.json)
           VIEWS_U=$(jq '[.views[]?.uniques] | add // 0' analytics/views.json)
           CLONES_T=$(jq '[.clones[]?.count]   | add // 0' analytics/clones.json)
@@ -51,6 +53,7 @@ jobs:
           REPO_URL="https://github.com/${GITHUB_REPOSITORY}"
           PAGES_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/$(basename ${GITHUB_REPOSITORY})/"
 
+          mkdir -p digest
           {
             echo "# ACACIA • Weekly Traffic Digest"
             echo "Timestamp (UTC): **${TS}**"
@@ -69,29 +72,12 @@ jobs:
             echo "${PTH:-_none observed_}"
             echo
             echo "> Beacon: **ACACIA•GAIA•HKX277206**"
-          } > digest.md
+          } > digest/digest_${TS}.md
 
-      - name: Upload raw JSON
+      - name: Upload digest and analytics
         uses: actions/upload-artifact@v4
         with:
-          name: analytics-json
-          path: analytics/
-
-      - name: Publish summary to job page
-        run: cat digest.md >> "$GITHUB_STEP_SUMMARY"
-
-      # --- Optional email (requires SMTP secrets). Leave commented until ready ---
-      # - name: Send email
-      #   if: ${{ false }}     # flip to true after secrets are set
-      #   uses: dawidd6/action-send-mail@v3
-      #   with:
-      #     server_address: ${{ secrets.SMTP_SERVER }}
-      #     server_port: ${{ secrets.SMTP_PORT }}
-      #     secure: ${{ secrets.SMTP_SECURE }}
-      #     username: ${{ secrets.SMTP_USERNAME }}
-      #     password: ${{ secrets.SMTP_PASSWORD }}
-      #     subject: "ACACIA • Weekly Traffic Digest"
-      #     from: ${{ secrets.MAIL_FROM }}
-      #     to: ${{ secrets.MAIL_TO }}
-      #     html_body: ${{ steps.build.outputs.text }}
-      #     text_body: ${{ steps.build.outputs.text }}
+          name: acacia-digest-${{ github.run_number }}
+          path: |
+            analytics/
+            digest/
