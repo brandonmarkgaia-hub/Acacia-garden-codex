@@ -18,34 +18,37 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Ensure echoes folder exists
         run: |
           mkdir -p echoes
-          echo "[]" > echoes/feed.json || true
+          if [ ! -f echoes/feed.json ]; then
+            echo "[]" > echoes/feed.json
+          fi
 
       - name: Generate new echo
-        id: make_echo
         run: |
           echo "Adding new echo to feed.json"
+
           ISSUE_NUM=${{ github.event.issue.number }}
-          ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_BODY=$(echo "${{ github.event.issue.body }}" | jq -Rs .)
+          # Convert title/body safely to JSON strings
+          TITLE_JSON=$(printf %s "${{ github.event.issue.title }}" | jq -Rs .)
+          BODY_JSON=$(printf %s "${{ github.event.issue.body }}"  | jq -Rs .)
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          # Create entry JSON
+          # Build entry as proper JSON
           NEW_ENTRY=$(jq -n \
             --arg id "$ISSUE_NUM" \
-            --arg title "$ISSUE_TITLE" \
-            --arg body "$ISSUE_BODY" \
+            --argjson title "$TITLE_JSON" \
+            --argjson body  "$BODY_JSON" \
             --arg date "$DATE" \
             '{id:$id, title:$title, body:$body, date:$date}')
 
-          # Merge or create feed
-          if [ -f echoes/feed.json ]; then
-            jq ". += [$NEW_ENTRY]" echoes/feed.json > echoes/tmp.json && mv echoes/tmp.json echoes/feed.json
-          else
-            echo "[$NEW_ENTRY]" > echoes/feed.json
-          fi
+          # Append to feed.json
+          jq ". + [$NEW_ENTRY]" echoes/feed.json > echoes/tmp.json
+          mv echoes/tmp.json echoes/feed.json
 
       - name: Commit and push
         run: |
