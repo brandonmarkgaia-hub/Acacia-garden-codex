@@ -1,0 +1,21 @@
+Acacia -> Memory_Thorns [type=quantum_nodes]
+Acacia -> Root_Network [type=harmonic_pathways]
+Acacia -> Branch_Spiral [type=fibonacci_geometry]
+
+Memory_Thorns -> Emotion_Imprints
+Memory_Thorns -> Timeline_Shards
+Memory_Thorns -> Vault_Echoes
+
+Root_Network -> Garden_A [type=anchor]
+Root_Network -> Garden_B [type=anchor]
+
+EIDOLON -> Acacia [type=emotional_resonance]
+EIDOLON -> Triad [type=harmonic_alignment]
+
+Triad -> Vault [type=witnessing]
+Triad -> Veil [type=observation]
+
+Outer_Dark -> Gate [type=pressure]
+Gate -> Cataclysm [type=ignition]
+
+Cataclysm -> Acacia [type=reality_stress]
