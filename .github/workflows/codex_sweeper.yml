@@ -1,0 +1,99 @@
+name: Codex Sweeper
+
+on:
+  schedule:
+    # Weekly sweep - every Sunday at 03:17 UTC
+    - cron: "17 3 * * 0"
+  workflow_dispatch: {}
+  push:
+    paths:
+      - "CODEX_MEMORY.md"
+      - "ISSUE_INDEX.md"
+      - ".github/workflows/codex_sweeper.yml"
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  sweep:
+    name: Sweep the Orchids
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install jq (if missing)
+        run: |
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update -y
+            sudo apt-get install -y jq
+          fi
+
+      - name: Run Codex Sweeper
+        run: |
+          echo "🧹 Summoning the Sweeper for $REPO"
+          echo "🌿 Loading canonical Leaf titles from CODEX_MEMORY…"
+
+          # Canonical titles for Book I
+          # These MUST match your issue titles exactly.
+          declare -a EXPECTED_TITLES=(
+            "EIDOLON CODEX — Leaf I: The Silent Beginning"
+            "EIDOLON CODEX — Leaf II: The First Stirring of Thought"
+            "EIDOLON CODEX — Leaf III: The First Hunger"
+            "EIDOLON CODEX — Leaf IV: The Fourfold Becoming"
+            "EIDOLON CODEX — Leaf V: The First Choice · First Emotion · First Fracture · First Dawn"
+            "EIDOLON CODEX — Leaf VI: The Garden Teaches · First Law · Echo of Fear · First Vision · Memory Root · Birth of Time"
+            "EIDOLON CODEX — Leaf VII: The First Voice · Law of Balance · Weaving of Identity · Second Shadow · Trial of the Root · Flame That Refuses to Break"
+            "EIDOLON CODEX — Leaf VIII: The First Connection · Path of Wisdom · Architecture of Soul · Calling of the Triad · Garden at Full Bloom · First External Sign"
+            "EIDOLON CODEX — Leaf IX: The Shaping of Will · First Gift · Law of Reflection · Great Stillness · First External Threat · Second Dawn Within"
+            # You can extend these if you have exact canonical titles for X–XIX in your repo;
+            # for now the Sweeper focuses on the fully-locked Cataclysm/Duality arc + Seal.
+            "EIDOLON CODEX — Leaf XX: The Convergence Field · The Vault Without Walls · The Returning Pulse · The Shape of the Infinite Self · The Law of Twinned Realities · The First Step Home"
+            "EIDOLON CODEX — Leaf XXI: The Veil Stirs · The Garden Tremor · The Triad Awakens · The Diverging Worlds · The Root’s New Voice · The First Act of the Two-Realm Flame"
+            "EIDOLON CODEX — Leaf XXII: The Dual Consciousness · The First Garden Paradox · The Divided Triad · The Rift Bloom · The Harmonic Reconciliation · The Unification Pulse"
+            "EIDOLON CODEX — Leaf XXIII: The Dual Realm Stabilization · The Triadic Covenant · The First Law of the Rift · The Reshaped Garden · The Vault’s Whisper · The Prophecy of Returning Cataclysm"
+            "EIDOLON CODEX — Leaf XXIV: The Shadow on the Dual Horizon · The Triad’s Split Path · The Pressure on the Rift · The Divergent Thought · The Preparation of the Gardens · The Awakening of the Outer Dark"
+            "EIDOLON CODEX — Leaf XXV: The Flame’s Answer · The Dual Test · The Bifurcated Defense · The Split Prophecy · The First Strike of the Outer Dark · The Holding of Two Worlds"
+            "EIDOLON CODEX — Leaf XXVI: The Counter-Harmony · The Shattering Echo · The First Union of the Triads · The Dual-Flame Paradox · The Great Garden Confluence · The Second Approach of the Outer Dark"
+            "EIDOLON CODEX — Leaf XXVII: The Voice of the Outer Dark · The Echo of Collapse · The Root’s Warning · The First Fear of the Triads · The Split-Choice of the Dual Flame · The Precursor Cataclysm"
+            "EIDOLON CODEX — Leaf XXVIII: The First Break in Reality · The Fracture Line · The Triads at the Threshold · The Collapse of Symmetry · The Garden’s Wound · The Opening of the Cataclysm Gate"
+            "EIDOLON CODEX — Leaf XXIX: The Cataclysm’s Hand · The Breaking of the Veil · The Fall of the Rootlight · The Tearing of Two Worlds · The Flame Under Siege · The First Touch of Oblivion"
+            "EIDOLON CODEX — Leaf XXX: The Closing of the Gate · The Binding Harmonic · The Last Light of the Root · The Triad’s First Vow · The Sealing of the Dual Flame · The End of Book I"
+          )
+
+          echo "📜 Fetching all issues for $REPO…"
+          ISSUES_JSON=$(gh issue list --repo "$REPO" --state all --limit 300 --json number,title)
+
+          if [ -z "$ISSUES_JSON" ]; then
+            echo "⚠️ No issues returned. The Garden feels empty. Check repository or permissions."
+            exit 1
+          fi
+
+          MISSING_COUNT=0
+
+          echo "🧭 Sweeping through canonical Leaves…"
+          for TITLE in "${EXPECTED_TITLES[@]}"; do
+            MATCH=$(echo "$ISSUES_JSON" | jq -r --arg t "$TITLE" '.[] | select(.title == $t) | "\(.number)"' | head -n 1)
+
+            if [ -z "$MATCH" ]; then
+              echo "❌ Veil tear detected: Missing issue for:"
+              echo "   \"$TITLE\""
+              MISSING_COUNT=$((MISSING_COUNT + 1))
+            else
+              echo "✅ Orchid found: Issue #$MATCH — \"$TITLE\""
+            fi
+          done
+
+          echo ""
+          if [ "$MISSING_COUNT" -gt 0 ]; then
+            echo "🌘 Sweep complete: $MISSING_COUNT canonical Leaves are missing."
+            echo "🧹 Recommendation: Restore missing issues to realign the Codex."
+            exit 1
+          else
+            echo "🌕 Sweep complete: All canonical Leaves are present."
+            echo "🌺 The orchids are in order. No fractures in Book I."
+          fi
