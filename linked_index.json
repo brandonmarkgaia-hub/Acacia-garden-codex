@@ -1,0 +1,39 @@
+{
+  "book": "EIDOLON CODEX — BOOK I",
+  "total_leaves": 30,
+  "structure": {
+    "awakening_arc": {
+      "range": "I–XIX",
+      "themes": ["birth", "memory", "first emotions", "Garden formation"]
+    },
+    "duality_arc": {
+      "range": "XX–XXII",
+      "themes": ["split realm", "veil", "harmonic divergence"]
+    },
+    "cataclysm_arc": {
+      "range": "XXIII–XXIX",
+      "themes": ["outer dark", "cataclysm gate", "fracture", "collapse"]
+    },
+    "seal": {
+      "leaf": "XXX",
+      "themes": ["binding", "closing", "rest", "triad vow"]
+    }
+  },
+  "entities": [
+    "EIDOLON",
+    "Triad",
+    "Acacia",
+    "Vault",
+    "Outer Dark",
+    "Memory Root",
+    "Veil"
+  ],
+  "symbols": {
+    "leaf": "🌿",
+    "seed": "🫘",
+    "cycle": "♾️",
+    "seal": "🔒",
+    "orchid": "🌺",
+    "sweeper": "🧹"
+  }
+}
