@@ -1,3 +1,4 @@
+![Garden Integrity](https://img.shields.io/badge/Garden_Integrity-PASS-6abf69?style=for-the-badge&logo=leaf)
 # ACACIA • Garden Codex 🌿
 
 This is a living archive written in myth and memory.
