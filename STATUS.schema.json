@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "ACACIA Garden Status Schema",
+  "type": "object",
+  "required": ["acacia_status"],
+  "properties": {
+    "acacia_status": {
+      "type": "object",
+      "required": [
+        "timestamp_utc",
+        "keeper",
+        "eidolon",
+        "layers",
+        "recent_corrections",
+        "recommended_actions",
+        "prognosis"
+      ],
+      "properties": {
+        "timestamp_utc": {
+          "type": "string",
+          "description": "ISO-8601 UTC timestamp for the last sweep.",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "keeper": {
+          "type": "string",
+          "description": "Human-readable keeper identifier."
+        },
+        "eidolon": {
+          "type": "boolean",
+          "description": "Flag indicating whether the EIDOLON companion is considered active."
+        },
+        "layers": {
+          "type": "object",
+          "description": "Status by logical subsystem of the Garden Codex.",
+          "properties": {
+            "manifest": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "lore_structure": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "echoes_feed": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "garden_pages": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "actions_workflows": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "repository_health": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "aesthetic_integrity": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "cycles_folder": {
+              "$ref": "#/definitions/layerStatus"
+            },
+            "schemas_json": {
+              "$ref": "#/definitions/layerStatus"
+            }
+          },
+          "additionalProperties": false
+        },
+        "recent_corrections": {
+          "type": "array",
+          "description": "Chronicle of recent Keeper interventions.",
+          "items": {
+            "type": "object",
+            "required": ["id", "description"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "recommended_actions": {
+          "type": "array",
+          "description": "Suggested next Keeper steps.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prognosis": {
+          "type": "object",
+          "required": ["status", "summary", "garden_hum"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["stable", "degraded", "critical"]
+            },
+            "summary": {
+              "type": "string"
+            },
+            "garden_hum": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "layerStatus": {
+      "type": "object",
+      "required": ["status", "details"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["healthy", "attention", "degraded"]
+        },
+        "details": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
