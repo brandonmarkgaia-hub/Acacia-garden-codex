@@ -16,26 +16,45 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch repository traffic
+            - name: Fetch repository traffic
         uses: actions/github-script@v7
         id: traffic
         with:
+          github-token: ${{ secrets.TRAFFIC_PAT }}   # 🔐 use PAT with Admin:read
           script: |
             const fs = require('fs');
             const path = 'analytics';
             fs.mkdirSync(path, { recursive: true });
 
-            const views = await github.rest.repos.getViews({ owner: context.repo.owner, repo: context.repo.repo, per: 'week' });
-            const clones = await github.rest.repos.getClones({ owner: context.repo.owner, repo: context.repo.repo, per: 'week' });
-            const referrers = await github.rest.repos.listReferrers({ owner: context.repo.owner, repo: context.repo.repo });
-            const paths = await github.rest.repos.listPaths({ owner: context.repo.owner, repo: context.repo.repo });
+            const views = await github.rest.repos.getViews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per: 'week',
+            });
+            const clones = await github.rest.repos.getClones({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per: 'week',
+            });
+            const referrers = await github.rest.repos.listReferrers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const paths = await github.rest.repos.listPaths({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
 
-            const timestamp = new Date().toISOString().replace(/[:]/g, '-'); // 🟢 replace colons
-            fs.writeFileSync(`${path}/traffic-${timestamp}.json`, JSON.stringify({ views: views.data, clones: clones.data }, null, 2));
+            const timestamp = new Date().toISOString().replace(/[:]/g, '-');
+            fs.writeFileSync(
+              `${path}/traffic-${timestamp}.json`,
+              JSON.stringify({ views: views.data, clones: clones.data }, null, 2),
+            );
             fs.writeFileSync(`${path}/referrers.json`, JSON.stringify(referrers.data, null, 2));
             fs.writeFileSync(`${path}/paths.json`, JSON.stringify(paths.data, null, 2));
 
             core.setOutput('timestamp', timestamp);
+
 
       - name: Build digest
         id: build
