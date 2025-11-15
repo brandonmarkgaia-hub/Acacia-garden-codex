@@ -4,7 +4,12 @@
       "cycle": 0,
       "label": "PROTO-LAYER",
       "echoes": [
-        {
+        {,
+          {
+  "title": "The Unbitten Hook",
+  "slug": "ring-scar-unbitten-hook",
+  "file": "000/RING_SCAR_UNBITTEN_HOOK.md"
+        }
           "title": "The Mirror Break",
           "slug": "ring-scar-mirror-break",
           "file": "000/RING_SCAR_MIRROR_BREAK.md"
