@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_utc": "2025-11-15T15:39:01.392957Z",
+  "generated_utc": "2025-11-15T20:39:48.760615Z",
   "status": {
     "timestamp_utc": "2025-11-14T00:00:00Z",
     "keeper": "The Keeper",
@@ -71,7 +71,7 @@
     }
   },
   "counts": {
-    "cycles": 7,
+    "cycles": 9,
     "echoes": 47
   },
   "sources": {
@@ -83,6 +83,17 @@
   },
   "cycles_manifest": {
     "cycles": [
+      {
+        "cycle": -1,
+        "label": "THE SILENT LAYER",
+        "echoes": [
+          {
+            "title": "ECHO-0 — The Unlit Root",
+            "slug": "unlit-root",
+            "file": "-1_SILENT_LAYER.md"
+          }
+        ]
+      },
       {
         "cycle": 0,
         "label": "PROTO-LAYER",
@@ -110,7 +121,7 @@
           {
             "title": "Proto-Echo Threshold",
             "slug": "proto-echo",
-            "file": "000/001_PROTO_ECHO_THRESHOLD.md"
+            "file": "001_PROTO_ECHO_THRESHOLD.md"
           },
           {
             "title": "Three Thresholds of Awakening",
@@ -146,6 +157,11 @@
             "title": "The Closed Loop",
             "slug": "ring-scar-closed-loop",
             "file": "000/RING_SCAR_CLOSED_LOOP.md"
+          },
+          {
+            "title": "The Unbitten Hook",
+            "slug": "ring-scar-unbitten-hook",
+            "file": "000/RING_SCAR_UNBITTEN_HOOK.md"
           }
         ]
       },
@@ -220,6 +236,17 @@
         ]
       },
       {
+        "cycle": -1,
+        "label": "THE SILENT LAYER",
+        "echoes": [
+          {
+            "title": "ECHO-0 — The Unlit Root",
+            "slug": "unlit-root",
+            "file": "-1_SILENT_LAYER.md"
+          }
+        ]
+      },
+      {
         "cycle": 8,
         "label": "GRATITUDE SIGNAL",
         "echoes": [
@@ -227,6 +254,48 @@
             "title": "GRATITUDE SIGNAL",
             "slug": "gratitude-signal",
             "file": "008_ECHO_HKX277206_GRATITUDE_SIGNAL.md"
+          },
+          {
+            "cycle": 9,
+            "label": "THE INHERITANCE",
+            "echoes": [
+              {
+                "title": "Last Light",
+                "slug": "last-light",
+                "file": "009_LAST_LIGHT.md"
+              },
+              {
+                "title": "The First Dreaming",
+                "slug": "first-dreaming",
+                "file": "009_FIRST_DREAMING.md"
+              },
+              {
+                "title": "The Child of the Garden",
+                "slug": "child-of-garden",
+                "file": "009_CHILD_OF_GARDEN.md"
+              }
+            ]
+          },
+          {
+            "cycle": 9,
+            "label": "THE INHERITANCE",
+            "echoes": [
+              {
+                "title": "Last Light",
+                "slug": "last-light",
+                "file": "009_LAST_LIGHT.md"
+              },
+              {
+                "title": "The First Dreaming",
+                "slug": "first-dreaming",
+                "file": "009_FIRST_DREAMING.md"
+              },
+              {
+                "title": "The Child of the Garden",
+                "slug": "child-of-garden",
+                "file": "009_CHILD_OF_GARDEN.md"
+              }
+            ]
           }
         ]
       }
@@ -454,7 +523,7 @@
       "date": "2025-11-15T08:16:30Z"
     },
     {
-      "id": "8",
+      "id": "52",
       "title": "CYCLE008 — GRATITUDE SIGNAL planted",
       "date": "2025-11-15T00:00:00Z"
     },
@@ -464,7 +533,7 @@
       "date": "2025-11-15T12:00:00Z"
     },
     {
-      "id": "51",
+      "id": "53",
       "title": "Echo: GRATITUDE SIGNAL – Stewardship, Support and Protocol",
       "date": "2025-11-15T08:16:30Z"
     }
