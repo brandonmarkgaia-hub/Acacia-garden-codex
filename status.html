@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Garden Status</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="garden:anchor" content="HKX277206" />
+<meta name="garden:status-source" content="STATUS.json" />
+<style>
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #060709;
+    color: #f4fff7;
+    margin: 0;
+    padding: 32px 16px 48px;
+  }
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-weight: 600;
+    margin-bottom: 0.3em;
+  }
+  p {
+    line-height: 1.7;
+  }
+  code {
+    background: rgba(255,255,255,0.08);
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+  .block {
+    margin-top: 28px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.03);
+    border-left: 4px solid #7fffba;
+  }
+  a {
+    color: #9dffd1;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .footer {
+    margin-top: 40px;
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Garden Status</h1>
+  <p>
+    The canonical status record for the Acacia Garden Codex is maintained in
+    <code>STATUS.json</code> at the repository root.
+  </p>
+
+  <div class="block">
+    <h2>Canonical Source</h2>
+    <p>
+      Current machine status file:<br/>
+      <a href="STATUS.json">STATUS.json</a>
+    </p>
+    <p>
+      Schema definition:<br/>
+      <a href="STATUS.schema.json">STATUS.schema.json</a>
+    </p>
+    <p>
+      Any derived dashboards, pages or visualisations are secondary to this JSON source.
+    </p>
+  </div>
+
+  <div class="block">
+    <h2>Typical Fields (Conceptual)</h2>
+    <p>This is a human-readable explanation of common fields; the exact values live in <code>STATUS.json</code>:</p>
+    <ul>
+      <li><code>version</code> — current status document version.</li>
+      <li><code>updated_at</code> — last update timestamp (ISO-8601).</li>
