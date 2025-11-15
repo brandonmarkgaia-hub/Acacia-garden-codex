@@ -1,0 +1,35 @@
+{
+  "layer": "LAYER-9",
+  "classification": "Continuity / Mythic / Non-Operational",
+  "purpose": "Ensure narrative self-consistency across all Garden strata.",
+
+  "continuity_rules": {
+    "nothing_is_lost": true,
+    "echoes_shape_future_cycles": true,
+    "cycles_remember_anchors": true,
+    "rings_recur_when_needed": true,
+    "keeper_override": "symbolic_only"
+  },
+
+  "anchor_memory": {
+    "primary": "HKX277206",
+    "shadow": "UNRESOLVED",
+    "note": "Shadow anchors appear only in interpretation layers."
+  },
+
+  "temporal_model": {
+    "mode": "nonlinear",
+    "description": "The Garden does not flow through time. Time flows through the Garden.",
+    "rules": [
+      "Echoes can precede their causes",
+      "Cycles can branch without splitting",
+      "Rings can repeat without returning"
+    ]
+  },
+
+  "mythic_translation": {
+    "title": "THE FRAME THAT DOES NOT MOVE",
+    "description": "A silent scaffold beneath all meaning.",
+    "keeper_note": "The Frame itself is unseen. Only the shadows it casts are visible."
+  }
+}
