@@ -211,9 +211,20 @@ b0c1xqzpqufwwzvcmmjqqcxrppaaxtxz2dduunnllmm5m2mwwcwcatteeqpnnjj
   try {
     if (Array.isArray(cyclesData.cycles) && cyclesData.cycles.length){
       cyclesData.cycles.forEach(c => {
+        const firstEcho = (Array.isArray(c.echoes) && c.echoes.length) ? c.echoes[0] : null;
+        const title = `Cycle ${c.cycle} — ${c.label}`;
+        const link = firstEcho
+          ? `./explorer.html#${c.cycle}/${firstEcho.slug}`
+          : null;
+
+        const body = link
+          ? `<div class="title">${title}</div>
+             <a href="${link}">Open in Explorer</a>`
+          : `<div class="title">${title}</div>
+             <div class="hint">No echoes listed yet.</div>`;
+
         byId('cycles').appendChild(
-          makeCard(`<div class="title">${c.title}</div>
-                    <a href="./cycles/${c.file}">Open</a>`)
+          makeCard(body)
         );
       });
     } else {
