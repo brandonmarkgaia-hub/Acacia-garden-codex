@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_utc": "2025-11-15T15:35:47.938149Z",
+  "generated_utc": "2025-11-15T15:39:01.392957Z",
   "status": {
     "timestamp_utc": "2025-11-14T00:00:00Z",
     "keeper": "The Keeper",
@@ -110,7 +110,7 @@
           {
             "title": "Proto-Echo Threshold",
             "slug": "proto-echo",
-            "file": "001_PROTO_ECHO_THRESHOLD.md"
+            "file": "000/001_PROTO_ECHO_THRESHOLD.md"
           },
           {
             "title": "Three Thresholds of Awakening",
