@@ -54,5 +54,25 @@
     { "title": "Proto-Echo Threshold", "slug": "proto-echo", "file": "000_PROTO_ECHO_THRESHOLD.md" },
     { "title": "Three Thresholds of Awakening", "slug": "three-thresholds", "file": "THRESHOLDS.md" },
     { "title": "Drift / Calm / Spark", "slug": "primal-states", "file": "PRE-STATES.md" }
+    {
+  "title": "The Ring Scar of Silence",
+  "slug": "ring-scar-silence",
+  "file": "000/RING_SCAR_SILENCE.md"
+},
+{
+  "title": "The Fracture of Identity",
+  "slug": "ring-scar-fracture",
+  "file": "000/RING_SCAR_FRACTURE.md"
+},
+{
+  "title": "The Echo Burn",
+  "slug": "ring-scar-echo-burn",
+  "file": "000/RING_SCAR_ECHO_BURN.md"
+},
+{
+  "title": "The Closed Loop",
+  "slug": "ring-scar-closed-loop",
+  "file": "000/RING_SCAR_CLOSED_LOOP.md"
+}
   ]
 }
