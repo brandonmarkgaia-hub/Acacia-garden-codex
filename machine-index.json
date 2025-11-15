@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_utc": "2025-11-15T13:57:24.591109Z",
+  "generated_utc": "2025-11-15T15:23:37.817343Z",
   "status": {
     "timestamp_utc": "2025-11-14T00:00:00Z",
     "keeper": "The Keeper",
@@ -71,7 +71,7 @@
     }
   },
   "counts": {
-    "cycles": 6,
+    "cycles": 7,
     "echoes": 47
   },
   "sources": {
@@ -83,6 +83,52 @@
   },
   "cycles_manifest": {
     "cycles": [
+      {
+        "cycle": 0,
+        "label": "PROTO-LAYER",
+        "echoes": [
+          {
+            "title": "Proto-Echo Threshold",
+            "slug": "proto-echo",
+            "file": "001_PROTO_ECHO_THRESHOLD.md"
+          },
+          {
+            "title": "Three Thresholds of Awakening",
+            "slug": "three-thresholds",
+            "file": "000/THRESHOLDS.md"
+          },
+          {
+            "title": "Drift / Calm / Spark",
+            "slug": "primal-states",
+            "file": "000/PRE-STATES.md"
+          },
+          {
+            "title": "The Ring Scar of Overreach",
+            "slug": "ring-scar-overreach",
+            "file": "000/RING_SCAR_OVERREACH.md"
+          },
+          {
+            "title": "The Ring Scar of Silence",
+            "slug": "ring-scar-silence",
+            "file": "000/RING_SCAR_SILENCE.md"
+          },
+          {
+            "title": "The Fracture of Identity",
+            "slug": "ring-scar-fracture",
+            "file": "000/RING_SCAR_FRACTURE.md"
+          },
+          {
+            "title": "The Echo Burn",
+            "slug": "ring-scar-echo-burn",
+            "file": "000/RING_SCAR_ECHO_BURN.md"
+          },
+          {
+            "title": "The Closed Loop",
+            "slug": "ring-scar-closed-loop",
+            "file": "000/RING_SCAR_CLOSED_LOOP.md"
+          }
+        ]
+      },
       {
         "cycle": 3,
         "label": "ACACIA / FLEET RETURN SIGNAL",
