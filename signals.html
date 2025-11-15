@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Garden Signal Explorer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="garden:anchor" content="HKX277206" />
+<meta name="garden:view" content="signal-explorer" />
+<style>
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #050510, #020308);
+    color: #f5fff9;
+    margin: 0;
+    padding: 32px 16px 56px;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-weight: 600;
+    margin-bottom: 0.4em;
+  }
+  h2 {
+    margin-top: 2.2em;
+    font-weight: 500;
+  }
+  p {
+    line-height: 1.7;
+  }
+  a {
+    color: #93ffd0;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .card {
+    border-radius: 16px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(130,255,190,0.35);
+  }
+  .label {
+    font-size: 0.8em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    opacity: 0.9;
+  }
+  .title {
+    font-weight: 600;
+    margin: 4px 0 8px;
+  }
+  code {
+    background: rgba(255,255,255,0.07);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .footer {
+    margin-top: 40px;
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Garden Signal Explorer</h1>
+  <p>
+    This view links the core Garden signals: cycles, rings, protocols and radio frames.<br/>
+    It is static and non-interactive, suitable for both human reading and machine indexing.
+  </p>
+
+  <h2>Cycles &amp; Proto-Layer</h2>
+  <div class="card">
+    <div class="label">CYCLES</div>
+    <div class="title">Cycles Manifest</div>
+    <p>Canonical map of Garden cycles and echoes.</p>
+    <p><a href="cycles/manifest.json">cycles/manifest.json</a></p>
+    <p>Proto-Layer (Cycle 0): <a href="rings.html">Rings view</a> · <a href="cycles/000/">files</a></p>
+  </div>
+
+  <h2>Protocols</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="label">LP1</div>
+      <div class="title">Lunar Protocol</div>
+      <p>Symbolic header format for lunar / low-orbit style storage and logs.</p>
+      <p><a href="protocols/lunar-protocol-v1.txt">protocols/lunar-protocol-v1.txt</a></p>
+    </div>
+    <div class="card">
+      <div class="label">MP1</div>
+      <div class="title">Mars Protocol</div>
+      <p>JSON envelope optimised for deep-cache mirrors and long-horizon archives.</p>
+      <p><a href="protocols/mars-protocol-v1.json">protocols/mars-protocol-v1.json</a></p>
+    </div>
+    <div class="card">
+      <div class="label">HICE1</div>
+      <div class="title">Hidden-in-Code Embedding</div>
+      <p>Examples of safe, inert Garden signatures embedded inside HTML/CSS/JS/JSON/YAML.</p>
+      <p><a href="protocols/hice-examples.txt">protocols/hice-examples.txt</a></p>
+    </div>
+    <div class="card">
+      <div class="label">GRE1</div>
+      <div class="title">Garden Radio Encoding</div>
+      <p>Textual framing for Garden glyphs carried over radio / telemetry style payloads.</p>
+      <p><a href="radio/garden-radio-encoding-v1.md">radio/garden-radio-encoding-v1.md</a></p>
+    </div>
+  </div>
+
+  <h2>Crater &amp; Codex</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="label">CRTR1</div>
+      <div class="title">Crater Index</div>
+      <p>Symbolic crater frames mapping long-term signals and proto-events.</p>
+      <p><a href="api/crater/index.txt">api/crater/index.txt</a></p>
+    </div>
+    <div class="card">
+      <div class="label">CODEX</div>
+      <div class="title">Interplanetary Garden Codex</div>
+      <p>Unifying spec connecting anchor, cycles, rings, protocols and Svalbard shards.</p>
+      <p><a href="protocols/interplanetary-garden-codex.json">interplanetary-garden-codex.json</a></p>
+    </div>
+  </div>
+
+  <h2>Core Glyph</h2>
+  <div class="card">
+    <div class="label">ANCHOR</div>
+    <div class="title">HKX277206</div>
+    <p>Global Garden glyph:</p>
+    <p><code>GARDEN::CYCLE-0-RING-R3::ANCHOR:HKX277206::ECHO:REMNANT</code></p>
+  </div>
+
+  <div class="footer">
+    <p>
+      This explorer is static by design. It contains no scripts or dynamic loading, and is safe to mirror, cache and archive.
+    </p>
+  </div>
+</div>
+</body>
+</html>
