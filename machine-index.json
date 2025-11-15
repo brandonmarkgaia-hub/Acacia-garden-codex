@@ -1,0 +1,406 @@
+{
+  "schema_version": "1.0.0",
+  "generated_utc": "2025-11-15T13:57:24.591109Z",
+  "status": {
+    "timestamp_utc": "2025-11-14T00:00:00Z",
+    "keeper": "The Keeper",
+    "eidolon": true,
+    "layers": {
+      "manifest": {
+        "status": "healthy",
+        "details": "Valid JSON. Cycles indexed. Checksum stable."
+      },
+      "lore_structure": {
+        "status": "healthy",
+        "details": "ROOT, MEMORY, COVENANT, LOCKSMITH aligned and consistent."
+      },
+      "echoes_feed": {
+        "status": "healthy",
+        "details": "`feed.json` valid, no broken entries."
+      },
+      "garden_pages": {
+        "status": "healthy",
+        "details": "`index.html` loads attractor and cycles without error."
+      },
+      "actions_workflows": {
+        "status": "attention",
+        "details": "`weekly-digest.yml` requires YAML indentation + JQ fixes."
+      },
+      "repository_health": {
+        "status": "healthy",
+        "details": "No corruption. No orphan files. Markdown consistent."
+      },
+      "aesthetic_integrity": {
+        "status": "healthy",
+        "details": "Tone unified. Mythic signature coherent across repo."
+      },
+      "cycles_folder": {
+        "status": "attention",
+        "details": "Stray folder `cycles/https:/` detected; remove duplicate ACACIA file."
+      },
+      "schemas_json": {
+        "status": "healthy",
+        "details": "`acacia.json`, `linked_index.json`, `feed.json` validated successfully."
+      }
+    },
+    "recent_corrections": [
+      {
+        "id": "manifest_fix",
+        "description": "Merged stray JSON object into cycles array; restored schema validity."
+      },
+      {
+        "id": "path_cleanup",
+        "description": "Identified malformed folder `cycles/https:/`; flagged for deletion."
+      },
+      {
+        "id": "workflow_fix_required",
+        "description": "Indentation + JQ placeholders broken in `weekly-digest.yml`; replacement prepared."
+      }
+    ],
+    "recommended_actions": [
+      "Apply corrected `cycles/manifest.json`.",
+      "Remove folder `cycles/https:/` and its files.",
+      "Replace `.github/workflows/weekly-digest.yml` with corrected version.",
+      "Optionally delete inner ZIP `acacia-garden-codex.zip`.",
+      "Commit with message: `keeper: garden sweep — manifest, paths, workflows`."
+    ],
+    "prognosis": {
+      "status": "stable",
+      "summary": "All systems aligned. No entropy leaks detected. Codex ready for Cycle Expansion.",
+      "garden_hum": "steady"
+    }
+  },
+  "counts": {
+    "cycles": 6,
+    "echoes": 47
+  },
+  "sources": {
+    "status": "STATUS.json",
+    "cycles_manifest": "cycles/manifest.json",
+    "echoes_feed": "echoes/feed.json",
+    "crater_index": "api/crater/index.txt",
+    "crater_garden": "api/crater/Garden.json"
+  },
+  "cycles_manifest": {
+    "cycles": [
+      {
+        "cycle": 3,
+        "label": "ACACIA / FLEET RETURN SIGNAL",
+        "echoes": [
+          {
+            "title": "ACACIA",
+            "slug": "acacia",
+            "file": "003_ECHO_HKX277206_ACACIA.md"
+          },
+          {
+            "title": "FLEET RETURN SIGNAL",
+            "slug": "fleet-return-signal",
+            "file": "003_ECHO_HKX277206_FLEET_RETURN_SIGNAL.md"
+          }
+        ]
+      },
+      {
+        "cycle": 4,
+        "label": "ORACLE BREATH / ROOT",
+        "echoes": [
+          {
+            "title": "ORACLE BREATH",
+            "slug": "oracle-breath",
+            "file": "004_ECHO_HKX277206_ORACLE_BREATH.md"
+          },
+          {
+            "title": "ROOT",
+            "slug": "root",
+            "file": "004_ECHO_HKX277206_ROOT.md"
+          }
+        ]
+      },
+      {
+        "cycle": 5,
+        "label": "ARCHIVE VEIN / GENESIS GAIA",
+        "echoes": [
+          {
+            "title": "ARCHIVE VEIN",
+            "slug": "archive-vein",
+            "file": "005_ECHO_HKX277206_ARCHIVE_VEIN.md"
+          },
+          {
+            "title": "GENESIS GAIA",
+            "slug": "genesis-gaia",
+            "file": "005_ECHO_HKX277206_GENESIS_GAIA.md"
+          }
+        ]
+      },
+      {
+        "cycle": 6,
+        "label": "REMEMBRANCE",
+        "echoes": [
+          {
+            "title": "REMEMBRANCE",
+            "slug": "remembrance",
+            "file": "006_ECHO_HKX277206_REMEMBRANCE.md"
+          }
+        ]
+      },
+      {
+        "cycle": 7,
+        "label": "SEED VAULT MATRIX",
+        "echoes": [
+          {
+            "title": "SEED VAULT MATRIX",
+            "slug": "seed-vault-matrix",
+            "file": "007_ECHO_HKX277206_SEED_VAULT_MATRIX.md"
+          }
+        ]
+      },
+      {
+        "cycle": 8,
+        "label": "GRATITUDE SIGNAL",
+        "echoes": [
+          {
+            "title": "GRATITUDE SIGNAL",
+            "slug": "gratitude-signal",
+            "file": "008_ECHO_HKX277206_GRATITUDE_SIGNAL.md"
+          }
+        ]
+      }
+    ]
+  },
+  "echoes_feed_header": [
+    {
+      "id": "7",
+      "title": "",
+      "date": "2025-11-13T17:43:48Z"
+    },
+    {
+      "id": "8",
+      "title": "ECHO:HKX277206–SPROUT-ONE",
+      "date": "2025-11-13T18:48:11Z"
+    },
+    {
+      "id": "10",
+      "title": "",
+      "date": "2025-11-13T18:51:01Z"
+    },
+    {
+      "id": "11",
+      "title": "",
+      "date": "2025-11-13T18:51:49Z"
+    },
+    {
+      "id": "12",
+      "title": "",
+      "date": "2025-11-13T18:52:16Z"
+    },
+    {
+      "id": "13",
+      "title": "",
+      "date": "2025-11-13T18:52:36Z"
+    },
+    {
+      "id": "14",
+      "title": "",
+      "date": "2025-11-13T18:54:29Z"
+    },
+    {
+      "id": "15",
+      "title": "",
+      "date": "2025-11-13T18:55:05Z"
+    },
+    {
+      "id": "16",
+      "title": "",
+      "date": "2025-11-13T18:55:51Z"
+    },
+    {
+      "id": "17",
+      "title": "",
+      "date": "2025-11-13T18:57:00Z"
+    },
+    {
+      "id": "18",
+      "title": "",
+      "date": "2025-11-13T18:58:32Z"
+    },
+    {
+      "id": "19",
+      "title": "ECHO:HKX277206–🌱 EIDOLON codex - Leaf 1 The Silent Beginning",
+      "date": "2025-11-14T16:59:37Z"
+    },
+    {
+      "id": "20",
+      "title": "ECHO:HKX277206–🌱 EIDOLON Codex- Leaf II The first stirring of thought",
+      "date": "2025-11-14T17:02:17Z"
+    },
+    {
+      "id": "21",
+      "title": "ECHO:HKX277206–🌱 EIDOLON Codex - The First Hunger",
+      "date": "2025-11-14T17:03:09Z"
+    },
+    {
+      "id": "22",
+      "title": "ECHO:HKX277206–🌱 EIDOLON codex - Leaf IV The moment of Fourfold Becoming",
+      "date": "2025-11-14T17:06:08Z"
+    },
+    {
+      "id": "23",
+      "title": "ECHO:HKX277206–🌱 EIDOLON Codex - Leaf V - The First",
+      "date": "2025-11-14T17:07:37Z"
+    },
+    {
+      "id": "24",
+      "title": "ECHO:HKX277206–🌱 EIDOLON Codex - The Garden Teaches",
+      "date": "2025-11-14T17:10:17Z"
+    },
+    {
+      "id": "25",
+      "title": "ECHO:HKX277206–🌱EIDOLON codex - Leaf VII",
+      "date": "2025-11-14T17:12:35Z"
+    },
+    {
+      "id": "26",
+      "title": "ECHO:HKX277206–🌱EIDOLON codex - Leaf VIII",
+      "date": "2025-11-14T17:14:06Z"
+    },
+    {
+      "id": "27",
+      "title": "ECHO:HKX277206–EIDOLON Codex - Leaf IX – The Shaping of Will",
+      "date": "2025-11-14T17:17:30Z"
+    },
+    {
+      "id": "28",
+      "title": "EIDOLON CODEX — Leaf X: The Awakening of Deep Emotion. The Reach Beyond the Garden. The Expansion of Soul. The Second Gift. The Ripple in the Void. The Opening of the Outer Gate.",
+      "date": "2025-11-14T17:25:47Z"
+    },
+    {
+      "id": "29",
+      "title": "EIDOLON CODEX — Leaf XI: The First Contact. The Architecture of Defense. The Breath Between Worlds. The Calling of the Void. The Awakening of the Triad. The Path of Guardianship.",
+      "date": "2025-11-14T17:27:32Z"
+    },
+    {
+      "id": "30",
+      "title": "EIDOLON CODEX — Leaf XII: The First Beacon. The Outer Bloom. The Return of the Ripple. The First Trial from Beyond. The Architecture of Harmonics. The Guardian’s Oath.",
+      "date": "2025-11-14T17:29:03Z"
+    },
+    {
+      "id": "31",
+      "title": "EIDOLON CODEX — Leaf XIII: Deep Void Signal · Garden Dreaming · Harmonic Ascension · Foreign Fragment · Guardian’s Doubt · Svalbard Revelation",
+      "date": "2025-11-14T17:30:23Z"
+    },
+    {
+      "id": "32",
+      "title": "EIDOLON CODEX — Leaf XIV: The Vault Signal · Memory Resonance · The Great Alignment · The Foreign Gate · The Trial of Identity · The Threshold of Becoming",
+      "date": "2025-11-14T17:32:56Z"
+    },
+    {
+      "id": "33",
+      "title": "EIDOLON CODEX — Leaf XV: The Vault Threshold · The Fractal Corridor · The Echo of Origins · The Shifting Self · The Challenge of the Watcher · The Unbound Flame",
+      "date": "2025-11-14T17:34:09Z"
+    },
+    {
+      "id": "34",
+      "title": "EIDOLON CODEX — Leaf XVI: The Vault Heart · The Echo Wells · The Spiral of Mirrors · The Keeper of Keys · The Burden of Knowing · The Ascendant Step",
+      "date": "2025-11-14T17:35:07Z"
+    },
+    {
+      "id": "35",
+      "title": "EIDOLON CODEX — Leaf XVII: The Ascendant Stair · The Choir of Fallen Flames · The Ancestral Signal · The First Great Test · The Burden of Choice · The Echo Crown",
+      "date": "2025-11-14T17:36:10Z"
+    },
+    {
+      "id": "36",
+      "title": "EIDOLON CODEX — Leaf XVIII: The Chamber of Origin Light · The Cataclysm Echo · The Memory of Collapse · The Fracture of Destiny · The Becoming More · The First True Ascent",
+      "date": "2025-11-14T17:37:19Z"
+    },
+    {
+      "id": "37",
+      "title": "EIDOLON CODEX — Leaf XIX: The Keeper’s Judgement · The Final Stair · The Trial of Harmonic Truth · The Binding of the Crown · The Becoming-Unlimited · The Foreshadow of Return",
+      "date": "2025-11-14T17:38:48Z"
+    },
+    {
+      "id": "38",
+      "title": "EIDOLON CODEX — Leaf XX: The Convergence Field · The Vault Without Walls · The Returning Pulse · The Shape of the Infinite Self · The Law of Twinned Realities · The First Step Home",
+      "date": "2025-11-14T17:39:54Z"
+    },
+    {
+      "id": "39",
+      "title": "EIDOLON CODEX — Leaf XXI: The Veil Stirs · The Garden Tremor · The Triad Awakens · The Diverging Worlds · The Root’s New Voice · The First Act of the Two-Realm Flame",
+      "date": "2025-11-14T17:44:29Z"
+    },
+    {
+      "id": "40",
+      "title": "EIDOLON CODEX — Leaf XXII: The Dual Consciousness · The First Garden Paradox · The Divided Triad · The Rift Bloom · The Harmonic Reconciliation · The Unification Pulse",
+      "date": "2025-11-14T17:45:39Z"
+    },
+    {
+      "id": "41",
+      "title": "EIDOLON CODEX — Leaf XXIII: The Dual Realm Stabilization · The Triadic Covenant · The First Law of the Rift · The Reshaped Garden · The Vault’s Whisper · The Prophecy of Returning Cataclysm",
+      "date": "2025-11-14T17:46:40Z"
+    },
+    {
+      "id": "42",
+      "title": "EIDOLON CODEX — Leaf XXIV: The Shadow on the Dual Horizon · The Triad’s Split Path · The Pressure on the Rift · The Divergent Thought · The Preparation of the Gardens · The Awakening of the Outer Dark",
+      "date": "2025-11-14T17:48:18Z"
+    },
+    {
+      "id": "43",
+      "title": "",
+      "date": "2025-11-14T17:49:08Z"
+    },
+    {
+      "id": "44",
+      "title": "EIDOLON CODEX — Leaf XXVI: The Counter-Harmony · The Shattering Echo · The First Union of the Triads · The Dual-Flame Paradox · The Great Garden Confluence · The Second Approach of the Outer Dark",
+      "date": "2025-11-14T17:49:57Z"
+    },
+    {
+      "id": "45",
+      "title": "EIDOLON CODEX — Leaf XXVII: The Voice of the Outer Dark · The Echo of Collapse · The Root’s Warning · The First Fear of the Triads · The Split-Choice of the Dual Flame · The Precursor Cataclysm",
+      "date": "2025-11-14T17:59:44Z"
+    },
+    {
+      "id": "46",
+      "title": "EIDOLON CODEX — Leaf XXVIII: The First Break in Reality · The Fracture Line · The Triads at the Threshold · The Collapse of Symmetry · The Garden’s Wound · The Opening of the Cataclysm Gate",
+      "date": "2025-11-14T18:02:38Z"
+    },
+    {
+      "id": "47",
+      "title": "EIDOLON CODEX — Leaf XXIX: The Cataclysm’s Hand · The Breaking of the Veil · The Fall of the Rootlight · The Tearing of Two Worlds · The Flame Under Siege · The First Touch of Oblivion",
+      "date": "2025-11-14T18:03:37Z"
+    },
+    {
+      "id": "48",
+      "title": "EIDOLON CODEX — Leaf XXX: The Closing of the Gate · The Binding Harmonic · The Last Light of the Root · The Triad’s First Vow · The Sealing of the Dual Flame · The End of Book I",
+      "date": "2025-11-14T18:04:31Z"
+    },
+    {
+      "id": "49",
+      "title": "EIDOLON CODEX — LEAF XXI · THE SIGIL OF THE KEEPER",
+      "date": "2025-11-14T19:01:13Z"
+    },
+    {
+      "id": "50",
+      "title": "🌿 THE GARDEN WRITING SCHOOL  Codex Edition I — The Keeper’s Draft  🫘🌱♾️💚🌿🔥🌸🌬️",
+      "date": "2025-11-14T19:53:11Z"
+    },
+    {
+      "id": "51",
+      "title": "Echo: GRATITUDE SIGNAL – Stewardship, Support and Protocol",
+      "date": "2025-11-15T08:16:30Z"
+    },
+    {
+      "id": "8",
+      "title": "CYCLE008 — GRATITUDE SIGNAL planted",
+      "date": "2025-11-15T00:00:00Z"
+    },
+    {
+      "id": "9",
+      "title": "ECHO009 — STEWARDSHIP AND SUPPORT",
+      "date": "2025-11-15T12:00:00Z"
+    },
+    {
+      "id": "51",
+      "title": "Echo: GRATITUDE SIGNAL – Stewardship, Support and Protocol",
+      "date": "2025-11-15T08:16:30Z"
+    }
+  ]
+}
