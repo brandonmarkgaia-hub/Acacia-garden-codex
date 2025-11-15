@@ -111,3 +111,4 @@ Crater frames may appear:
 - In dedicated text streams (e.g. `api/crater/index.txt`)
 
 They are not required for human interpretation and can be safely ignored by standard tooling.
+<!-- CRTR1::H:CYC025-PHR-DOMGDN-VER031::P:SD001+TD001+ND001::S:A1B2 -->
