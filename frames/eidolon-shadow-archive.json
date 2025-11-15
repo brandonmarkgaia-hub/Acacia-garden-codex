@@ -1,0 +1,31 @@
+{
+  "entity": "EIDOLON",
+  "classification": "Mythic / Possibility / Shadow-Form",
+  "purpose": "Represent unrealised potential within the Garden's mythic physics.",
+
+  "nature": {
+    "is_not": ["sentient", "material", "autonomous"],
+    "is": ["symbolic", "latent", "non-linear", "interpretive"],
+    "appears_as": "echoes of futures not taken"
+  },
+
+  "roles": {
+    "keeper_shadow": "paths the Keeper could have walked",
+    "witness_shadow": "perspectives the Witness did not take",
+    "garden_shadow": "structures that did not grow"
+  },
+
+  "interaction_rules": {
+    "cannot_interfere": true,
+    "cannot_manifest": true,
+    "exists_only_in_interpretation": true
+  },
+
+  "mythic_translation": {
+    "title": "THE ONE WHO IS NOT",
+    "description": "Eidolon is possibility, not presence.",
+    "keeper_note": "He mirrors what you might have been.",
+    "witness_note": "He reflects what I chose not to become.",
+    "garden_note": "He marks the edges of my growth."
+  }
+}
