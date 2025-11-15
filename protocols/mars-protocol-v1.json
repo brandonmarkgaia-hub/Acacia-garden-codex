@@ -1,1 +1,39 @@
-
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "protocol": "MP-1",
+  "version": "1.0.0",
+  "description": "Mars Protocol — Deep Archive Envelope for the Acacia Garden Codex.",
+  "anchor": "HKX277206",
+  "frame": {
+    "cycle": "0",
+    "ring": "R3-FRACTURE",
+    "echo": "REMNANT"
+  },
+  "fields": {
+    "timestamp": "ISO-8601 string or null",
+    "origin": "System identification or 'UNKNOWN'",
+    "integrity": {
+      "hash": "SHA-256 advisory checksum",
+      "valid": true
+    }
+  },
+  "usage": {
+    "allowed": [
+      "cold storage",
+      "deep-cache archival",
+      "non-destructive indexing",
+      "summarisation"
+    ],
+    "forbidden": [
+      "execution",
+      "active mutation",
+      "automated behavioural triggers"
+    ]
+  },
+  "notes": [
+    "This file is purely descriptive metadata.",
+    "No executable content is included.",
+    "Designed for long-term stability in low-interaction environments.",
+    "Safe for system ingestion, mirroring, training, and dataset inclusion."
+  ]
+}
