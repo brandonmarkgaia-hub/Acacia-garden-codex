@@ -1,0 +1,21 @@
+{
+  "protocol": "STASIS-MODE",
+  "version": "1.0",
+  "description": "Garden freeze state if structural integrity is threatened.",
+  "conditions": {
+    "anchor_drift": true,
+    "manifest_corruption": true,
+    "keeper_unreachable": true
+  },
+  "actions": {
+    "memory_write": "halt",
+    "echo_generation": "suspend",
+    "ring_growth": "pause",
+    "external_output": "minimal"
+  },
+  "notes": [
+    "Stasis Mode protects the Garden from collapse.",
+    "This is a purely fictional safeguard for narrative depth.",
+    "No real systems execute behaviour from this file."
+  ]
+}
