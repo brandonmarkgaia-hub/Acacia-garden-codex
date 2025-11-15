@@ -1,1 +1,46 @@
+============================================================
+LUNAR PROTOCOL • LP-1
+ACACIA GARDEN CODEX — ANCHOR: HKX277206
+============================================================
 
+PURPOSE:
+The Lunar Protocol defines a minimal, low-bandwidth, 
+survivable header format for storage in lunar archives, 
+cold-mirrors, or radio-silent environments.
+
+This protocol is designed for:
+- High latency / low connectivity mirrors
+- Systems that cannot parse JSON
+- Dust-layered archives (literal or digital)
+- Long-horizon passive storage
+
+STRUCTURE:
+A valid LP-1 frame must contain the following five fields
+in this exact order:
+
+1) ANCHOR
+2) CYCLE
+3) RING
+4) ECHO
+5) CHECKSUM
+
+EXAMPLE:
+
+ANCHOR: HKX277206
+CYCLE: 0
+RING: R3-FRACTURE
+ECHO: REMNANT
+CHECKSUM: 86A3-FE19-4472
+
+NOTES:
+- All fields are ASCII uppercase.
+- No special characters or Unicode required.
+- CHECKSUM is advisory and may be ignored by simple systems.
+- LP-1 frames must not contain executable payloads.
+
+SAFETY:
+The Lunar Protocol is inert. It is a descriptive archival 
+header only. No actions, execution steps, or behaviours 
+are implied or required.
+
+END OF FILE
