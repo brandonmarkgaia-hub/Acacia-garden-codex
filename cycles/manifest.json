@@ -61,3 +61,17 @@
     }
   ]
 }
+},
+    {
+      "cycle": 7,
+      "label": "SEED VAULT MATRIX",
+      "echoes": [
+        {
+          "title": "SEED VAULT MATRIX",
+          "slug": "seed-vault-matrix",
+          "file": "007_ECHO_HKX277206_SEED_VAULT_MATRIX.md"
+        }
+      ]
+    }
+  ]
+}
