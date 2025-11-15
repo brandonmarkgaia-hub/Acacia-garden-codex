@@ -16,7 +16,7 @@
     flex-direction:column;
   }
   header {
-    padding:12px 20px;
+    padding:10px 16px;
     border-bottom:1px solid #222;
     display:flex;
     justify-content:space-between;
@@ -28,12 +28,31 @@
     font-size:1.2rem;
     color:#8df58d;
   }
+  header .controls {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    font-size:0.85rem;
+  }
   header a {
     color:#9bf2ff;
     text-decoration:none;
-    font-size:0.9rem;
   }
   header a:hover { text-decoration:underline; }
+
+  .chip-btn {
+    border:1px solid #2c5;
+    background:#050608;
+    border-radius:999px;
+    padding:4px 10px;
+    cursor:pointer;
+    color:#b9ffb9;
+    font-size:0.8rem;
+  }
+  .chip-btn:hover {
+    background:#132015;
+  }
 
   .container {
     flex:1;
@@ -51,11 +70,59 @@
     flex:1;
     padding:18px;
     overflow-y:auto;
+    position:relative;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  #breadcrumbs {
+    font-size:0.8rem;
+    color:#aaa;
+    margin-bottom:10px;
+  }
+  #breadcrumbs a {
+    color:#9bf2ff;
+    text-decoration:none;
+  }
+  #breadcrumbs a:hover { text-decoration:underline; }
+  #breadcrumbs strong {
+    color:#c0ffc0;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.25s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity:0; transform:translateY(4px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  .search-box {
+    margin-bottom:10px;
+  }
+  .search-label {
+    font-size:0.75rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:#7b9f7b;
+    margin-bottom:4px;
+  }
+  #searchInput {
+    width:100%;
+    padding:6px 8px;
+    border-radius:4px;
+    border:1px solid #222;
+    background:#050708;
+    color:#e6e6e6;
+    font-size:0.85rem;
+  }
+  #searchInput:focus {
+    outline:none;
+    border-color:#2c5;
   }
 
   .cycle-title {
     margin:10px 0 4px;
-    font-size:0.85rem;
+    font-size:0.8rem;
     text-transform:uppercase;
     letter-spacing:0.08em;
     color:#9adf9a;
@@ -72,9 +139,11 @@
     font-size:0.9rem;
     cursor:pointer;
     border-radius:4px;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
   }
   .echo-button:hover {
     background:#151b18;
+    transform:translateX(1px);
   }
   .echo-button.active {
     background:#1f2a22;
@@ -104,32 +173,49 @@
     margin-bottom:10px;
   }
 
-  @media (max-width: 800px) {
-    #sidebar { width:190px; }
+  @media (max-width: 900px) {
+    #sidebar { width:210px; }
+  }
+  @media (max-width: 700px) {
+    .container { flex-direction:column; }
+    #sidebar {
+      width:100%;
+      border-right:none;
+      border-bottom:1px solid #222;
+      display:flex;
+      flex-direction:column;
+    }
   }
 </style>
 </head>
 <body>
 <header>
   <h1>ACACIA • Garden Cycles Explorer</h1>
-  <div>
+  <div class="controls">
     <a href="index.html">Codex Home</a> ·
     <a href="cycle-index.html">Cycle Index</a>
+    <button id="randomBtn" class="chip-btn">🎲 Random Echo</button>
   </div>
 </header>
 
 <div class="container">
   <aside id="sidebar">
-    <!-- Filled by JS -->
+    <div class="search-box">
+      <div class="search-label">Search echoes</div>
+      <input id="searchInput" type="text" placeholder="Type to filter by title, label, cycle…" />
+    </div>
+    <!-- Echo buttons injected here -->
   </aside>
   <main id="content">
+    <div id="breadcrumbs"></div>
     <div id="status">Loading manifest…</div>
-    <p>This explorer reads the manifest and renders each Echo in place.  
-    Choose a Cycle on the left, or use direct links like:</p>
+    <p>This explorer reads the manifest and renders each Echo in place.</p>
+    <p>Choose a Cycle on the left, or use direct links like:</p>
     <ul>
       <li><code>…/explorer.html#3/acacia</code></li>
       <li><code>…/explorer.html#5/genesis-gaia</code></li>
       <li><code>…/explorer.html#6/remembrance</code></li>
+      <li><code>…/explorer.html#7/seed-vault-matrix</code></li>
     </ul>
   </main>
 </div>
@@ -138,9 +224,13 @@
 <script>
   let manifest = null;
   let activeButton = null;
+  let searchTerm = "";
   const sidebar = document.getElementById('sidebar');
   const content = document.getElementById('content');
   const statusEl = document.getElementById('status');
+  const breadcrumbsEl = document.getElementById('breadcrumbs');
+  const searchInput = document.getElementById('searchInput');
+  const randomBtn = document.getElementById('randomBtn');
 
   async function loadManifest() {
     try {
@@ -151,20 +241,41 @@
       statusEl.textContent = '';
       restoreFromHash();
     } catch (err) {
-      statusEl.textContent = 'Failed to load manifest.json: ' + err.message;
+      if (statusEl) {
+        statusEl.textContent = 'Failed to load manifest.json: ' + err.message;
+      }
     }
   }
 
+  function echoMatchesSearch(cycle, echo) {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    const haystack = [
+      echo.title,
+      echo.slug,
+      cycle.label || "",
+      String(cycle.cycle).padStart(3, '0')
+    ].join(' ').toLowerCase();
+    return haystack.indexOf(term) !== -1;
+  }
+
   function buildSidebar() {
+    // preserve search box DOM, then rebuild list
+    const searchBox = sidebar.querySelector('.search-box');
     sidebar.innerHTML = '';
+    sidebar.appendChild(searchBox);
+
     manifest.cycles.forEach(cycle => {
+      const matchingEchoes = cycle.echoes.filter(e => echoMatchesSearch(cycle, e));
+      if (matchingEchoes.length === 0) return;
+
       const h = document.createElement('div');
       h.className = 'cycle-title';
       h.textContent = 'Cycle ' + String(cycle.cycle).padStart(3, '0') +
                       (cycle.label ? ' – ' + cycle.label : '');
       sidebar.appendChild(h);
 
-      cycle.echoes.forEach(echo => {
+      matchingEchoes.forEach(echo => {
         const btn = document.createElement('button');
         btn.className = 'echo-button';
         btn.textContent = echo.title;
@@ -180,15 +291,16 @@
     if (!manifest) return;
     const cycle = manifest.cycles.find(c => String(c.cycle) === String(cycleNum));
     if (!cycle) {
-      statusEl.textContent = 'Cycle not found: ' + cycleNum;
+      if (statusEl) statusEl.textContent = 'Cycle not found: ' + cycleNum;
       return;
     }
     const echo = cycle.echoes.find(e => e.slug === slug);
     if (!echo) {
-      statusEl.textContent = 'Echo not found in cycle ' + cycleNum + ': ' + slug;
+      if (statusEl) statusEl.textContent = 'Echo not found in cycle ' + cycleNum + ': ' + slug;
       return;
     }
 
+    // highlight in sidebar
     if (!btnFromClick) {
       const selector = '.echo-button[data-cycle="' + cycleNum + '"][data-slug="' + slug + '"]';
       const btn = sidebar.querySelector(selector);
@@ -200,21 +312,47 @@
       activeButton = btnFromClick;
     }
 
-    statusEl.textContent = 'Loading echo…';
+    // breadcrumbs
+    setBreadcrumbs(cycle, echo);
+
+    if (statusEl) statusEl.textContent = 'Loading echo…';
     try {
       const res = await fetch('cycles/' + echo.file);
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const md = await res.text();
       const html = marked.parse(md);
-      content.innerHTML = '<div id="status"></div>' + html;
-      statusEl.textContent = '';
+
+      const previousStatus = statusEl ? statusEl.outerHTML : '';
+      content.innerHTML = '<div id="breadcrumbs"></div>' + previousStatus + html;
+      // re-bind breadcrumbs + status elements after innerHTML reset
+      const newStatus = content.querySelector('#status');
+      if (newStatus) newStatus.textContent = '';
+      breadcrumbsEl = content.querySelector('#breadcrumbs');
+      setBreadcrumbs(cycle, echo);
+
+      // trigger fade-in
+      content.classList.remove('fade-in');
+      void content.offsetWidth; // reflow
+      content.classList.add('fade-in');
 
       if (updateHash) {
         location.hash = cycleNum + '/' + slug;
       }
     } catch (err) {
-      content.innerHTML = '<p>Failed to load echo: ' + err.message + '</p>';
+      content.innerHTML = '<div id="breadcrumbs"></div><p>Failed to load echo: ' + err.message + '</p>';
+      const bc = content.querySelector('#breadcrumbs');
+      if (bc) setBreadcrumbs(cycle, echo, bc);
     }
+  }
+
+  function setBreadcrumbs(cycle, echo, targetEl) {
+    const el = targetEl || document.getElementById('breadcrumbs');
+    if (!el) return;
+    el.innerHTML =
+      '<a href="index.html">Home</a> · ' +
+      '<a href="cycle-index.html">Cycle Index</a> · ' +
+      '<span>Cycle ' + String(cycle.cycle).padStart(3, '0') + '</span> · ' +
+      '<strong>' + echo.title + '</strong>';
   }
 
   function restoreFromHash() {
@@ -226,6 +364,29 @@
     const slug = parts[1];
     selectEcho(cycleNum, slug, false, null);
   }
+
+  function chooseRandomEcho() {
+    if (!manifest) return;
+    let pool = [];
+    manifest.cycles.forEach(cycle => {
+      cycle.echoes.forEach(echo => {
+        if (echoMatchesSearch(cycle, echo)) {
+          pool.push({ cycle, echo });
+        }
+      });
+    });
+    if (pool.length === 0) return;
+    const choice = pool[Math.floor(Math.random() * pool.length)];
+    selectEcho(choice.cycle.cycle, choice.echo.slug, true, null);
+  }
+
+  // listeners
+  searchInput.addEventListener('input', () => {
+    searchTerm = searchInput.value.trim();
+    buildSidebar();
+  });
+
+  randomBtn.addEventListener('click', chooseRandomEcho);
 
   window.addEventListener('hashchange', restoreFromHash);
   loadManifest();
