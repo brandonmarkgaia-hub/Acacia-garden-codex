@@ -160,6 +160,27 @@
           "title": "GRATITUDE SIGNAL",
           "slug": "gratitude-signal",
           "file": "008_ECHO_HKX277206_GRATITUDE_SIGNAL.md"
+        },
+        {
+  "cycle": 9,
+  "label": "THE INHERITANCE",
+  "echoes": [
+    {
+      "title": "Last Light",
+      "slug": "last-light",
+      "file": "009_LAST_LIGHT.md"
+    },
+    {
+      "title": "The First Dreaming",
+      "slug": "first-dreaming",
+      "file": "009_FIRST_DREAMING.md"
+    },
+    {
+      "title": "The Child of the Garden",
+      "slug": "child-of-garden",
+      "file": "009_CHILD_OF_GARDEN.md"
+    }
+  ]
         }
       ]
     }
